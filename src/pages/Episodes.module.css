@@ -1,0 +1,325 @@
+/* ============================================================
+   EPISODES PAGE — Torn Pages Gallery (YouTube Shorts)
+   ============================================================ */
+
+.episodes {
+  position: relative;
+  min-height: 100vh;
+  padding: var(--space-24) var(--page-gutter) var(--space-20);
+  background: var(--paper-warm);
+  overflow: hidden;
+}
+
+.paperLines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 23px,
+    rgba(58, 110, 165, 0.04) 23px,
+    rgba(58, 110, 165, 0.04) 24px
+  );
+  pointer-events: none;
+}
+
+.header {
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  color: var(--ink-black);
+  transform-origin: left center;
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--ink-mid);
+  max-width: 600px;
+}
+
+/* ── Controls (Search + Filters) ── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 10;
+}
+
+.filterBar {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: var(--space-2);
+}
+
+.filterBar::-webkit-scrollbar {
+  display: none;
+}
+
+.filterTab {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--ink-mid);
+  padding: var(--space-2) var(--space-6);
+  background: var(--paper-cream);
+  border: 1px solid var(--ink-faint);
+  border-bottom: 2px solid var(--ink-mid);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.filterTab:hover {
+  color: var(--ink-black);
+  border-bottom-color: var(--ink-black);
+  transform: translateY(-2px) !important;
+}
+
+.activeTab {
+  color: var(--ink-black);
+  background: white;
+  border: 2.5px solid var(--ink-black);
+  border-bottom: none;
+  padding-bottom: calc(var(--space-2) + 2.5px);
+  z-index: 2;
+}
+
+.activeTabInkLine {
+  position: absolute;
+  bottom: -2.5px;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: white;
+  z-index: 5;
+}
+
+/* ── Index Card Lined Search Bar ── */
+.searchBar {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.searchInput {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--ink-black);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.searchLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink-mid) 0px,
+    var(--ink-mid) 8px,
+    transparent 8px,
+    transparent 12px
+  );
+  transition: background 0.3s ease;
+}
+
+.searchInput:focus + .searchLine {
+  background: var(--accent-red);
+}
+
+/* ── Videos Grid (9:16 Portrait Panels) ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-8);
+  position: relative;
+  z-index: 2;
+}
+
+.panel {
+  position: relative;
+  background: white;
+  padding: 10px;
+  border: 1px solid var(--ink-faint);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.panel:hover {
+  box-shadow: var(--shadow-deep);
+}
+
+/* Tape strip on top center of card */
+.tapeStrip {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 18px;
+  background: rgba(230, 215, 185, 0.65);
+  border: 1px dashed rgba(180, 160, 120, 0.4);
+  z-index: 5;
+}
+
+.thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 15; /* Tall portrait layout */
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+
+.panel:hover .thumbImg {
+  transform: scale(1.04);
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.panel:hover .playOverlay {
+  opacity: 1;
+}
+
+.playIcon {
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Info segment (hand-written details) */
+.info {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.infoMeta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  color: var(--ink-light);
+  text-transform: uppercase;
+}
+
+.epNumber {
+  font-weight: bold;
+}
+
+.epTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--ink-black);
+  line-height: 1.25;
+  margin-top: 2px;
+}
+
+/* ── Skeletons / States ── */
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-8);
+}
+
+.skeletonPanel {
+  background: white;
+  padding: 10px;
+  border: 1px solid var(--ink-faint);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.skeletonThumb {
+  width: 100%;
+  aspect-ratio: 9 / 15;
+  background: var(--paper-aged);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonText {
+  width: 70%;
+  height: 14px;
+  background: var(--paper-aged);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonSubText {
+  width: 40%;
+  height: 10px;
+  background: var(--paper-aged);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.errorBox, .emptyBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.emptyIcon {
+  font-size: var(--text-4xl);
+  color: var(--ink-faint);
+  margin-bottom: var(--space-4);
+}
+
+.errorText, .emptyText {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink-mid);
+}
+

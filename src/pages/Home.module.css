@@ -1,0 +1,108 @@
+/* ============================================================
+   HOME PAGE — Notebook Chapters
+   ============================================================ */
+
+.home {
+  position: relative;
+  width: 100%;
+}
+
+/* ── Chapter sections ── */
+.chapter {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-16) var(--page-gutter);
+}
+
+.chapterTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--ink-black);
+  margin-bottom: var(--space-4);
+}
+
+.chapterHint {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ── Chapter 0: Hero ── */
+.heroPlaceholder {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-bottom: var(--space-20);
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  color: var(--ink-black);
+  line-height: 0.95;
+  transform: rotate(-2deg);
+  margin-bottom: var(--space-3);
+  /* Off-axis positioning — bottom-left like a hand-scrawled note */
+}
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  color: var(--ink-mid);
+  letter-spacing: var(--tracking-wide);
+  font-weight: 300;
+  margin-bottom: var(--space-10);
+}
+
+.scrollPrompt {
+  position: absolute;
+  bottom: var(--space-8);
+  left: var(--page-gutter);
+}
+
+.stickyNote {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--ink-mid);
+  background: #FFF9C4;
+  padding: var(--space-3) var(--space-4);
+  transform: rotate(-1.5deg);
+  box-shadow: 2px 3px 6px rgba(10, 10, 10, 0.12);
+  /* Torn edge top */
+  border-top: 2px solid #FFE082;
+}
+
+/* ── CTA Section (chalkboard theme) ── */
+.ctaSection {
+  background-color: var(--chalkboard);
+  color: var(--chalk-white);
+}
+
+.ctaSection .chapterTitle {
+  color: var(--chalk-white);
+}
+
+.ctaSection .chapterHint {
+  color: var(--chalk-ghost);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .chapter {
+    min-height: auto;
+    padding: var(--space-12) var(--page-gutter);
+  }
+
+  .heroPlaceholder {
+    min-height: 100svh;
+    padding-bottom: var(--space-16);
+  }
+}

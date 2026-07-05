@@ -1,0 +1,74 @@
+[
+  {
+    "id": "stick-01",
+    "name": "The Wanderer",
+    "role": "Protagonist",
+    "bio": "A nameless stickman who walks between worlds, carrying nothing but a line that extends behind him — his path, his memory, his lifeline. He never speaks, but his silences carry the weight of every page he's crossed.",
+    "firstAppearance": "EP01 - The Blank Page",
+    "relatedEpisodes": ["EP01", "EP04", "EP09", "EP12"],
+    "personality": "Silent, determined, curious",
+    "tags": ["hero", "series-1", "series-2"],
+    "position": { "x": 0, "y": 0 },
+    "connections": ["stick-02", "stick-03", "stick-05"]
+  },
+  {
+    "id": "stick-02",
+    "name": "The Scribble",
+    "role": "Antagonist",
+    "bio": "Born from a mistake — an eraser smudge that refused to disappear. The Scribble is chaos given form, a tangled mass of angry lines that corrupts everything it touches. It doesn't hate The Wanderer; it hates the clean page he walks on.",
+    "firstAppearance": "EP03 - The Smudge",
+    "relatedEpisodes": ["EP03", "EP06", "EP09", "EP12"],
+    "personality": "Chaotic, jealous, tragic",
+    "tags": ["villain", "series-1"],
+    "position": { "x": 3, "y": -1 },
+    "connections": ["stick-01", "stick-04"]
+  },
+  {
+    "id": "stick-03",
+    "name": "Dot",
+    "role": "Companion",
+    "bio": "The smallest character in the universe — literally a single dot with enormous personality. Dot bounces, rolls, and orbits around The Wanderer like a loyal pet. Small but never insignificant.",
+    "firstAppearance": "EP02 - First Line",
+    "relatedEpisodes": ["EP02", "EP04", "EP07", "EP10"],
+    "personality": "Playful, loyal, brave",
+    "tags": ["ally", "series-1", "fan-favorite"],
+    "position": { "x": -1, "y": 1.5 },
+    "connections": ["stick-01", "stick-06"]
+  },
+  {
+    "id": "stick-04",
+    "name": "The Eraser",
+    "role": "Force of Nature",
+    "bio": "Neither good nor evil — The Eraser is the void itself. A white rectangle that drifts across the page, wiping away everything in its path. Worlds end where it passes. Some say it's the animator's hand. Others say it's something older.",
+    "firstAppearance": "EP06 - White Out",
+    "relatedEpisodes": ["EP06", "EP09", "EP12"],
+    "personality": "Unknowable, inevitable, silent",
+    "tags": ["force", "series-1", "series-2"],
+    "position": { "x": 2, "y": 2 },
+    "connections": ["stick-02", "stick-05"]
+  },
+  {
+    "id": "stick-05",
+    "name": "Ink",
+    "role": "The Creator",
+    "bio": "A mysterious figure made of dripping ink, leaving trails of new drawings wherever they walk. Ink is the universe's artist — the one who draws the lines that become walls, bridges, and worlds. But creation has a cost.",
+    "firstAppearance": "EP05 - The Well",
+    "relatedEpisodes": ["EP05", "EP08", "EP11"],
+    "personality": "Wise, tired, generous",
+    "tags": ["ally", "series-2"],
+    "position": { "x": -2, "y": -1 },
+    "connections": ["stick-01", "stick-04", "stick-06"]
+  },
+  {
+    "id": "stick-06",
+    "name": "Sketch",
+    "role": "The Unfinished",
+    "bio": "Half-drawn and painfully aware of it. Sketch is missing an arm, half a face, and most of her backstory. She's searching for the stylus that will complete her — but what if being finished means being ordinary?",
+    "firstAppearance": "EP07 - Incomplete",
+    "relatedEpisodes": ["EP07", "EP10", "EP11"],
+    "personality": "Witty, insecure, resourceful",
+    "tags": ["ally", "series-2", "fan-favorite"],
+    "position": { "x": -3, "y": 1 },
+    "connections": ["stick-03", "stick-05"]
+  }
+]

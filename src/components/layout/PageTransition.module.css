@@ -1,0 +1,60 @@
+/* ============================================================
+   PAGE TRANSITION
+   ============================================================ */
+
+.page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  transform-origin: center top;
+  will-change: transform, opacity;
+}
+
+/* Torn paper edge — appears at top during transitions */
+.paperEdge {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--paper-cream);
+  pointer-events: none;
+  /* Jagged torn-edge effect using polygon clip-path */
+  clip-path: polygon(
+    0% 100%,
+    2% 30%,
+    4% 80%,
+    7% 20%,
+    10% 70%,
+    13% 10%,
+    16% 60%,
+    19% 25%,
+    22% 75%,
+    25% 15%,
+    28% 65%,
+    31% 30%,
+    34% 85%,
+    37% 20%,
+    40% 70%,
+    43% 35%,
+    46% 80%,
+    49% 10%,
+    52% 60%,
+    55% 25%,
+    58% 75%,
+    61% 40%,
+    64% 85%,
+    67% 20%,
+    70% 65%,
+    73% 35%,
+    76% 80%,
+    79% 15%,
+    82% 70%,
+    85% 30%,
+    88% 75%,
+    91% 20%,
+    94% 65%,
+    97% 40%,
+    100% 100%
+  );
+}

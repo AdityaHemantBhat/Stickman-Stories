@@ -1,0 +1,210 @@
+/* ============================================================
+   LATEST EPISODES — Horizontal storyboard scroll
+   ============================================================ */
+
+.section {
+  position: relative;
+  width: 100%;
+  height: 300vh; /* Scroll duration */
+  background: var(--paper-warm);
+  /* Faint notebook lines */
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 47px,
+    rgba(58, 110, 165, 0.05) 47px,
+    rgba(58, 110, 165, 0.05) 48px
+  );
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 60px; /* Account for navbar */
+}
+
+.titleWrap {
+  position: absolute;
+  top: var(--space-8);
+  left: var(--page-gutter);
+  z-index: 5;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--ink-black);
+  display: inline-block;
+}
+
+.titleUnderline {
+  height: 3px;
+  background: var(--accent-red);
+  border-radius: 2px;
+  transform-origin: left center;
+  margin-top: 4px;
+}
+
+/* ── Horizontal track ── */
+.track {
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 5rem);
+  padding: var(--space-20) var(--page-gutter) var(--space-10);
+  width: max-content;
+}
+
+/* ── Panel (each episode) ── */
+.panel {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(260px, 22vw, 340px);
+  transform-origin: center center;
+}
+
+/* ── Thumbnail ── */
+.thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--paper-aged);
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+
+.panel:hover .thumbImg {
+  transform: scale(1.06);
+}
+
+/* Play overlay */
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.panel:hover .playOverlay {
+  opacity: 1;
+}
+
+.playIcon {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* ── Tape strip ── */
+.tapeStrip {
+  position: absolute;
+  top: -8px;
+  left: 30%;
+  width: 50px;
+  height: 16px;
+  background: rgba(255, 248, 220, 0.7);
+  border: 1px solid rgba(200, 180, 140, 0.3);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── Episode info ── */
+.info {
+  padding: var(--space-3) var(--space-2) 0;
+}
+
+.epNumber {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.epTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink-black);
+  margin-top: var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+.epViews {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  margin-top: var(--space-1);
+  display: block;
+}
+
+/* ── See All CTA ── */
+.seeAll {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--ink-mid);
+  padding: var(--space-6);
+}
+
+.seeAllText {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--ink-black);
+}
+
+.seeAllArrow {
+  width: 60px;
+  height: auto;
+}
+
+/* ── Mobile: vertical layout ── */
+.mobile {
+  height: auto !important;
+}
+
+.mobile .stickyContainer {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding-top: var(--space-12);
+}
+
+.mobile .track {
+  flex-direction: column;
+  width: 100%;
+  padding: var(--space-12) var(--page-gutter) var(--space-8);
+  gap: var(--space-12);
+}
+
+.mobile .panel {
+  width: 100%;
+  max-width: 400px;
+}
+
+.mobile .titleWrap {
+  position: relative;
+  top: auto;
+  left: auto;
+  padding: var(--space-16) var(--page-gutter) 0;
+}
+
+.mobile .seeAll {
+  align-items: center;
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stickman Stories Favicon -->
+  <rect width="32" height="32" rx="4" fill="#F4EFE6"/>
+  <!-- Head -->
+  <circle cx="16" cy="9" r="5" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+  <!-- Body -->
+  <line x1="16" y1="14" x2="16" y2="23" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Arms -->
+  <line x1="10" y1="17" x2="22" y2="17" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Legs -->
+  <line x1="16" y1="23" x2="11" y2="30" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="16" y1="23" x2="21" y2="30" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+</svg>

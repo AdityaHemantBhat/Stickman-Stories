@@ -1,0 +1,126 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: var(--space-32) var(--page-gutter);
+  background: var(--paper-cream);
+  overflow: hidden;
+}
+
+/* Notebook paper margin line */
+.marginLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(40px, 8vw, 100px);
+  width: 2px;
+  background: rgba(225, 75, 60, 0.4);
+  z-index: 1;
+}
+
+.marginLine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 6px;
+  width: 1px;
+  background: rgba(225, 75, 60, 0.2);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  margin-left: clamp(40px, 8vw, 100px);
+  padding-left: var(--space-12);
+  max-width: 1000px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--ink-black);
+  margin-bottom: var(--space-16);
+  display: inline-block;
+  transform: rotate(-1deg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-16);
+}
+
+.statCard {
+  position: relative;
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.5);
+  transform: rotate(calc(var(--random-rotation, 0) * 1deg));
+}
+
+.statCard:nth-child(even) {
+  --random-rotation: 1.5;
+}
+
+.statCard:nth-child(odd) {
+  --random-rotation: -1;
+}
+
+.tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 50px;
+  height: 15px;
+  background: rgba(255, 248, 220, 0.6);
+  border: 1px solid rgba(200, 180, 140, 0.3);
+}
+
+.valueWrap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--ink-black);
+  line-height: 1;
+}
+
+.suffix {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--accent-red);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink-mid);
+  margin-top: var(--space-2);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.underline {
+  position: absolute;
+  bottom: 10px;
+  left: 10%;
+  width: 80%;
+  height: 10px;
+  opacity: 0.4;
+}
+
+@media (max-width: 768px) {
+  .marginLine {
+    left: 20px;
+  }
+  
+  .content {
+    margin-left: 20px;
+    padding-left: var(--space-6);
+  }
+}

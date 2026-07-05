@@ -1,0 +1,177 @@
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  background: var(--paper-warm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--page-gutter);
+  overflow: hidden;
+  border-top: 2px dashed var(--ink-faint);
+  border-bottom: 2px dashed var(--ink-faint);
+}
+
+.notebookLines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(58, 110, 165, 0.05) 27px,
+    rgba(58, 110, 165, 0.05) 28px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  z-index: 5;
+  user-select: none;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--ink-black);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink-mid);
+  margin-top: 4px;
+}
+
+/* ── Canvas Box ── */
+.canvasContainer {
+  position: relative;
+  width: min(90vw, 850px);
+  height: 450px;
+  background: white;
+  border: 2px solid var(--ink-black);
+  box-shadow: var(--shadow-deep);
+  z-index: 2;
+  cursor: crosshair;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Interactive Doodles inside Section ── */
+.stickmanGuy {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  width: 80px;
+  height: 120px;
+  z-index: 3;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.speechBubble {
+  position: absolute;
+  bottom: 130px;
+  right: 30px;
+  background: white;
+  border: 1.5px solid var(--ink-black);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--ink-black);
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 25px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--ink-black);
+}
+
+/* ── Controls Toolbar ── */
+.toolbar {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  z-index: 5;
+  align-items: center;
+}
+
+.toolBtn {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--ink-black);
+  background: var(--paper-cream);
+  border: 1px solid var(--ink-mid);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.toolBtn:hover {
+  background: white;
+  border-color: var(--ink-black);
+  transform: translateY(-2px);
+}
+
+.clearBtn {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.clearBtn:hover {
+  background: #fff5f5;
+  border-color: var(--accent-red);
+}
+
+/* ── Sweep Eraser Wipe Animation ── */
+.eraserWipe {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  background: var(--paper-warm);
+  border-left: 3px dashed var(--ink-mid);
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: -20px 0 30px rgba(0,0,0,0.05);
+}
+
+.eraserDrawing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(15deg);
+  width: 80px;
+  height: 100px;
+  border: 2px solid var(--ink-black);
+  background: var(--paper-cream);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eraserDrawingText {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--ink-mid);
+  transform: rotate(-90deg);
+}

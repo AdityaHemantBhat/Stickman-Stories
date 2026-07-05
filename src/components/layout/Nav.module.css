@@ -1,0 +1,203 @@
+/* ============================================================
+   NAV — Notebook Tab Dividers
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  pointer-events: none;
+}
+
+/* ── Logo (top-left doodle) ── */
+.logo {
+  position: fixed;
+  top: var(--space-5);
+  left: var(--space-5);
+  z-index: var(--z-nav);
+  pointer-events: auto;
+  text-decoration: none;
+  color: var(--ink-black);
+}
+
+.logoSvg {
+  width: 36px;
+  height: 36px;
+}
+
+/* ── Desktop Tab Dividers (right edge) ── */
+.tabsDesktop {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: var(--z-nav);
+  pointer-events: auto;
+}
+
+.tab {
+  text-decoration: none;
+  color: var(--ink-black);
+  display: block;
+}
+
+.tabInner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-6);
+  background: var(--paper-cream);
+  border-left: 2px solid var(--ink-faint);
+  border-top: 1px solid var(--ink-faint);
+  border-bottom: 1px solid var(--ink-faint);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  white-space: nowrap;
+  transform-origin: right center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Paper texture on tab */
+.tabInner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.tabLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Active tab — pulled out further, ink underline */
+.active .tabInner {
+  border-left-color: var(--ink-black);
+  border-left-width: 3px;
+  padding-right: var(--space-6);
+  background: var(--paper-highlight);
+}
+
+.active .tabLabel {
+  color: var(--ink-black);
+  font-weight: 700;
+}
+
+.active .tabLabel::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: var(--space-6);
+  right: var(--space-5);
+  height: 2px;
+  background: var(--accent-red);
+  border-radius: 1px;
+}
+
+/* ── Hamburger (mobile only) ── */
+.hamburger {
+  position: fixed;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: calc(var(--z-nav) + 10);
+  pointer-events: auto;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: var(--ink-black);
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+/* ── Mobile Overlay ── */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) + 5);
+  background: var(--paper-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileOverlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.mobileLinks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  text-decoration: none;
+  color: var(--ink-mid);
+  transition: color var(--duration-fast) ease;
+}
+
+.mobileLink:hover,
+.mobileLinkActive {
+  color: var(--ink-black);
+}
+
+.mobileLinkIcon {
+  font-size: var(--text-2xl);
+  width: 2em;
+  text-align: center;
+}
+
+.mobileLinkLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+}
+
+.mobileLinkActive .mobileLinkLabel {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-red);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .tabsDesktop {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobileOverlay {
+    display: none !important;
+  }
+}

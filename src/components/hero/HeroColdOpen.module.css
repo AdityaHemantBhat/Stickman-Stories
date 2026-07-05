@@ -1,0 +1,374 @@
+/* ============================================================
+   HERO — Cold Open
+   Full viewport, animated stickman, off-axis text
+   ============================================================ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--paper-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle paper grain overlay */
+.bgTexture {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Stickman SVG ── */
+.svgWrap {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-55%);
+  width: clamp(200px, 30vw, 380px);
+  z-index: 2;
+}
+
+.stickmanSvg {
+  width: 100%;
+  height: auto;
+}
+
+.stickmanSvg circle,
+.stickmanSvg line,
+.stickmanSvg path,
+.stickmanSvg polyline {
+  opacity: 0; /* Hidden until GSAP draws them */
+}
+
+/* ── Off-axis headline (bottom-left) ── */
+.content {
+  position: absolute;
+  bottom: clamp(100px, 18vh, 200px);
+  left: var(--page-gutter);
+  z-index: 3;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  line-height: 0.9;
+  color: var(--ink-black);
+  transform-origin: left bottom;
+  /* Hand-drawn underline */
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: -2%;
+  width: 60%;
+  height: 4px;
+  background: var(--accent-red);
+  border-radius: 2px;
+  transform: rotate(-1deg);
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  color: var(--ink-light);
+  font-weight: 300;
+  letter-spacing: var(--tracking-wide);
+  margin-top: var(--space-4);
+}
+
+/* ── Scroll prompt ── */
+.scrollPrompt {
+  position: absolute;
+  bottom: var(--space-8);
+  left: var(--page-gutter);
+  z-index: 3;
+}
+
+.stickyNote {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--ink-mid);
+  background: #FFF9C4;
+  padding: var(--space-3) var(--space-5);
+  box-shadow: 2px 3px 8px rgba(10, 10, 10, 0.1);
+  border-top: 3px solid #FFE082;
+  transform-origin: top center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .svgWrap {
+    right: 5%;
+    top: 15%;
+    transform: translateY(0);
+    width: 50vw;
+    opacity: 0.3;
+  }
+
+  .content {
+    bottom: 25vh;
+    left: var(--page-gutter);
+    right: var(--page-gutter);
+  }
+}
+
+/* ── Interactive Speech Bubble ── */
+.speechBubble {
+  position: absolute;
+  top: 40px;
+  left: -130px;
+  width: 140px;
+  background: white;
+  border: 2.5px solid var(--ink-black);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--ink-black);
+  box-shadow: var(--shadow-deep);
+  transform: rotate(-3deg);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  right: -9px;
+  top: 15px;
+  border-width: 6px 0 6px 9px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--ink-black);
+  display: block;
+  width: 0;
+}
+
+/* Hotspots for click triggers */
+.hotspot {
+  cursor: pointer;
+  fill: transparent;
+  pointer-events: auto;
+}
+
+.hotspot:hover {
+  stroke: var(--accent-red);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+/* ── Decorative background doodles ── */
+.decorativeDoodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dood {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6rem);
+  color: var(--ink-faint);
+  opacity: 0.15;
+  animation: floatDood 6s ease-in-out infinite alternate;
+}
+
+.doodSvg {
+  position: absolute;
+  width: clamp(40px, 8vw, 95px);
+  height: clamp(40px, 8vw, 95px);
+  opacity: 0.15;
+  animation: floatDood 7s ease-in-out infinite alternate;
+}
+
+.doodSvg path,
+.doodSvg circle,
+.doodSvg line {
+  opacity: 1 !important; /* Force override GSAP general path draw */
+  stroke: var(--ink-faint);
+}
+
+/* Individual placement */
+.doodQuote1 {
+  top: 15%;
+  left: 10%;
+  animation-duration: 5s;
+}
+
+.doodQuote2 {
+  bottom: 25%;
+  right: 15%;
+  animation-duration: 7s;
+}
+
+.doodBrace1 {
+  top: 40%;
+  left: 25%;
+  font-size: clamp(2rem, 4vw, 4rem);
+  animation-duration: 8s;
+  animation-delay: -2s;
+}
+
+.doodBrace2 {
+  bottom: 12%;
+  left: 45%;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  animation-duration: 9s;
+  animation-delay: -4s;
+}
+
+.doodArrow {
+  top: 18%;
+  right: 25%;
+  animation-duration: 6.5s;
+}
+
+.doodStar1 {
+  bottom: 40%;
+  left: 12%;
+  animation-duration: 8.5s;
+  animation-delay: -1s;
+}
+
+.doodStar2 {
+  top: 25%;
+  left: 45%;
+  animation-duration: 7.5s;
+}
+
+.doodStar2 path {
+  stroke: var(--accent-red) !important;
+  opacity: 0.25;
+}
+
+.doodCrosshair {
+  bottom: 15%;
+  right: 40%;
+  animation-duration: 10s;
+  animation-delay: -3s;
+}
+
+@keyframes floatDood {
+  0% {
+    transform: translateY(-8px) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(8px) rotate(3deg);
+  }
+}
+
+/* ── Stickman Walk Cycle Animations ── */
+.walkingCharacter {
+  animation: characterBob 0.45s ease-in-out infinite alternate;
+  transform-origin: 200px 430px;
+}
+
+.walkingLegLeft {
+  animation: legSwing1 0.45s ease-in-out infinite;
+}
+
+.walkingLegRight {
+  animation: legSwing2 0.45s ease-in-out infinite;
+}
+
+.walkingArmLeft {
+  animation: armSwing1 0.45s ease-in-out infinite;
+}
+
+.walkingArmRight {
+  animation: armSwing2 0.45s ease-in-out infinite;
+}
+
+@keyframes characterBob {
+  0% {
+    transform: translateY(0px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+@keyframes legSwing1 {
+  0%, 100% {
+    transform: rotate(-24deg);
+  }
+  50% {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes legSwing2 {
+  0%, 100% {
+    transform: rotate(24deg);
+  }
+  50% {
+    transform: rotate(-24deg);
+  }
+}
+
+@keyframes armSwing1 {
+  0%, 100% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes armSwing2 {
+  0%, 100% {
+    transform: rotate(18deg);
+  }
+  50% {
+    transform: rotate(-18deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: var(--space-20);
+    min-height: 100vh;
+  }
+  .svgWrap {
+    right: 5%;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 75vw;
+    opacity: 0.15;
+  }
+  .content {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    padding: 0 var(--page-gutter);
+    width: 100%;
+    text-align: left;
+    z-index: 5;
+    margin-top: 15vh;
+  }
+  .title {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+  }
+  .title::after {
+    width: 80%;
+  }
+  .scrollPrompt {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: var(--space-8);
+    padding: 0 var(--page-gutter);
+  }
+}

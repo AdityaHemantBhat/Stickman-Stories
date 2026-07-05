@@ -1,0 +1,232 @@
+/* ============================================================
+   FOOTER — "Back Cover" of the Notebook
+   Chalkboard texture, chalked links, signature
+   ============================================================ */
+
+.footer {
+  position: relative;
+  padding: var(--space-20) var(--page-gutter) var(--space-8);
+  overflow: hidden;
+  /* Premium chalkboard glow texture */
+  background-color: #121212;
+  background-image: 
+    radial-gradient(circle at 50% 120%, rgba(225, 75, 60, 0.08), transparent 50%),
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.02), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Torn notebook page top border transition */
+.tornDivider {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.tornSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating background chalkboard doodles */
+.doodleBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.dood {
+  position: absolute;
+  width: clamp(45px, 6vw, 75px);
+  height: clamp(45px, 6vw, 75px);
+  opacity: 0.1;
+  animation: floatChalk 6s ease-in-out infinite alternate;
+}
+
+.dood path {
+  stroke: var(--chalk-ghost) !important;
+}
+
+.doodArrow {
+  top: 15%;
+  right: 10%;
+  animation-duration: 5s;
+}
+
+.doodBulb {
+  bottom: 25%;
+  left: 12%;
+  animation-duration: 7s;
+}
+
+.doodSparkle {
+  top: 40%;
+  left: 45%;
+  animation-duration: 8s;
+  animation-delay: -2s;
+}
+
+@keyframes floatChalk {
+  0% {
+    transform: translateY(-6px) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(6px) rotate(3deg);
+  }
+}
+
+.inner {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Signature ── */
+.signature {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.signatureSvg {
+  width: clamp(180px, 30vw, 280px);
+  height: auto;
+}
+
+.signatureSvg path,
+.signatureSvg line,
+.signatureSvg circle {
+  stroke: var(--chalk-white);
+}
+
+/* ── Links ── */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-8);
+}
+
+.link {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--chalk-ghost);
+  text-decoration: none;
+  position: relative;
+  transition: color var(--duration-fast) ease;
+  padding-bottom: 6px;
+}
+
+.link:hover {
+  color: var(--chalk-white);
+}
+
+/* Self-drawing chalk underline SVG */
+.chalkUnderline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  pointer-events: none;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke-dashoffset 0.4s var(--ease-out-expo);
+  color: var(--chalk-white);
+  opacity: 0.8;
+}
+
+.link:hover .chalkUnderline {
+  stroke-dashoffset: 0;
+}
+
+/* ── Social Icons (rubber stamp style) ── */
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.socialIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  color: var(--chalk-ghost);
+  text-decoration: none;
+  border: 2px dashed rgba(245, 245, 240, 0.2); /* Double/sketched chalk look */
+  border-radius: var(--radius-md);
+  transition: color var(--duration-fast) ease,
+              border-color var(--duration-fast) ease,
+              background var(--duration-fast) ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.socialIcon:hover {
+  color: var(--chalk-white);
+  border-color: var(--chalk-white);
+  border-style: solid;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stampIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.stampIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.stampLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+}
+
+/* ── Copyright ── */
+.copyright {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--chalk-ghost);
+  opacity: 0.6;
+  text-align: center;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(245, 245, 240, 0.1);
+}
+
+/* ── Responsive ── */
+@media (min-width: 769px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: var(--space-8);
+  }
+
+  .signature {
+    grid-column: 1 / -1;
+  }
+
+  .links {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .copyright {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}
