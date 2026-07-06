@@ -45,7 +45,9 @@ export default function Community() {
         <h2 className={styles.sectionTitle}>Join the Conversation</h2>
         <div className={styles.socialLinks}>
           <motion.a
-            href="#"
+            href="https://discord.gg/4X69Ktv336"
+            target="_blank"
+            rel="noopener noreferrer"
             className={styles.socialCard}
             whileHover={{ y: -4, rotate: -1 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -66,7 +68,9 @@ export default function Community() {
             <span className={styles.socialDesc}>Join 12K+ storytellers</span>
           </motion.a>
           <motion.a
-            href="#"
+            href="https://www.instagram.com/stickmanstories_youtube/"
+            target="_blank"
+            rel="noopener noreferrer"
             className={styles.socialCard}
             whileHover={{ y: -4, rotate: 1 }}
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}

@@ -33,6 +33,15 @@ body {
   background-color: var(--paper-cream);
   overflow-x: hidden;
   min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
 }
 
 /* Custom cursor — desktop only */

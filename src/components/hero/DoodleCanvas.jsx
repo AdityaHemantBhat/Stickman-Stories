@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
+import { audioManager } from '../../utils/audio';
 import styles from './DoodleCanvas.module.css';
 
 export default function DoodleCanvas() {
@@ -13,6 +14,7 @@ export default function DoodleCanvas() {
 
   // Idle timer to check if user has stopped drawing
   const idleTimer = useRef(null);
+  const lastCoords = useRef(null);
 
   // Setup drawing context
   useEffect(() => {
@@ -56,6 +58,10 @@ export default function DoodleCanvas() {
     ctx.moveTo(coords.x, coords.y);
     setIsDrawing(true);
     setHasDrawn(true);
+    lastCoords.current = coords;
+    
+    // Play drawing sound
+    audioManager.startScribble();
     
     // React stickman
     setStickmanText('Ooh, nice line! 😳');
@@ -70,10 +76,23 @@ export default function DoodleCanvas() {
 
     ctx.lineTo(coords.x, coords.y);
     ctx.stroke();
+
+    // Calculate drawing speed (velocity)
+    const prev = lastCoords.current || coords;
+    const dx = coords.x - prev.x;
+    const dy = coords.y - prev.y;
+    const speed = Math.sqrt(dx * dx + dy * dy);
+    
+    audioManager.updateScribble(speed);
+    lastCoords.current = coords;
   };
 
   const stopDrawing = () => {
     setIsDrawing(false);
+    lastCoords.current = null;
+    
+    // Stop scribble sound
+    audioManager.stopScribble();
     
     // Set a timeout to say something idle
     idleTimer.current = setTimeout(() => {
@@ -98,6 +117,9 @@ export default function DoodleCanvas() {
     if (isErasing || !hasDrawn) return;
     setIsErasing(true);
     setStickmanText('OH NO! THE ERASER! 😱');
+    
+    // Play tearing sound on sweep
+    audioManager.playTear();
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');

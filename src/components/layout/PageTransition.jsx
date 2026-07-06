@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { audioManager } from '../../utils/audio';
 import styles from './PageTransition.module.css';
 
 /**
@@ -44,6 +46,11 @@ const pageVariants = {
 };
 
 export default function PageTransition({ children }) {
+  useEffect(() => {
+    // Play paper tear sound effect on page transition mount
+    audioManager.playTear();
+  }, []);
+
   return (
     <motion.div
       className={styles.page}

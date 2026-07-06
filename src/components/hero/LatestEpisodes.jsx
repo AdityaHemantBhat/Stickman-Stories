@@ -1,5 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
+const MotionLink = motion(Link);
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VideoModal from '../ui/VideoModal';
@@ -153,8 +156,8 @@ export default function LatestEpisodes() {
             ))}
 
           {/* "See all" arrow at end */}
-          <motion.a
-            href="/episodes"
+          <MotionLink
+            to="/episodes"
             className={styles.seeAll}
             whileHover={{ x: 10 }}
             data-cursor="link"
@@ -163,7 +166,7 @@ export default function LatestEpisodes() {
             <svg viewBox="0 0 40 20" className={styles.seeAllArrow}>
               <path d="M0 10 L30 10 M25 4 L32 10 L25 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </motion.a>
+          </MotionLink>
         </div>
       </div>
     </section>

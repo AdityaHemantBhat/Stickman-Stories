@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
@@ -8,6 +8,7 @@ import Footer from './components/layout/Footer';
 import PageTransition from './components/layout/PageTransition';
 import CustomCursor from './components/ui/CustomCursor';
 import Ribbons from './components/ui/Ribbons';
+import Preloader from './components/ui/Preloader';
 
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -29,8 +30,10 @@ gsap.registerPlugin(ScrollTrigger);
  * - GSAP ScrollTrigger synced with Lenis scroll position
  * - CustomCursor rendered as persistent overlay
  * - Nav/Footer persist across route changes
+ * - Custom Preloader showing channel logo
  */
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
@@ -55,6 +58,11 @@ export default function App() {
     // Store on window for child component access if needed
     window.__lenis = lenis;
 
+    // Stop scrolling initially while loader is active
+    if (loading) {
+      lenis.stop();
+    }
+
     return () => {
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
@@ -62,8 +70,30 @@ export default function App() {
     };
   }, []);
 
+  // Sync scroll control when loading state changes
+  useEffect(() => {
+    if (window.__lenis) {
+      if (loading) {
+        window.__lenis.stop();
+      } else {
+        window.__lenis.start();
+      }
+    }
+  }, [loading]);
+
+  // Prevent right-click across the entire website
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
+
   // Refresh ScrollTriggers on route change
   useEffect(() => {
+    if (loading) return;
+
     // Small delay to let page transition complete before recalculating
     const timeout = setTimeout(() => {
       ScrollTrigger.refresh();
@@ -76,10 +106,17 @@ export default function App() {
     }
 
     return () => clearTimeout(timeout);
-  }, [location.pathname]);
+  }, [location.pathname, loading]);
 
   return (
     <>
+      {/* Preloader overlay with exit animation */}
+      <AnimatePresence>
+        {loading && (
+          <Preloader key="preloader" onComplete={() => setLoading(false)} />
+        )}
+      </AnimatePresence>
+
       {/* Skip to content — accessibility */}
       <a href="#main-content" className="skip-link">
         Skip to content

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { audioManager } from '../../utils/audio';
 import styles from './Nav.module.css';
 
 /**
@@ -12,11 +13,70 @@ import styles from './Nav.module.css';
  */
 
 const routes = [
-  { path: '/', label: 'Home', icon: '🏠' },
-  { path: '/episodes', label: 'Episodes', icon: '📺' },
-  { path: '/universe', label: 'Universe', icon: '✦' },
-  { path: '/about', label: 'About', icon: '✎' },
-  { path: '/community', label: 'Community', icon: '♡' },
+  { 
+    path: '/', 
+    label: 'Home', 
+    icon: (
+      <svg viewBox="0 0 24 24" className={styles.doodleIcon} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M3 11 Q12 3 21 11" />
+        <path d="M5 10 L5 20 Q12 21 19 20 L19 10" />
+        <path d="M10 20 L10 14 Q12 13 14 14 L14 20" />
+      </svg>
+    )
+  },
+  { 
+    path: '/episodes', 
+    label: 'Episodes', 
+    icon: (
+      <svg viewBox="0 0 24 24" className={styles.doodleIcon} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M3 8 Q12 6 21 8 L21 20 Q12 22 3 20 Z" />
+        <path d="M6 10 L15 10 L15 18 L6 18 Z" strokeWidth="1.5" />
+        <path d="M9 3 L12 8 L15 3" />
+        <circle cx="18" cy="11" r="1.2" fill="currentColor" stroke="none" />
+        <circle cx="18" cy="14" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  },
+  { 
+    path: '/universe', 
+    label: 'Universe', 
+    icon: (
+      <svg viewBox="0 0 24 24" className={styles.doodleIcon} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2 Q12.5 9.5 20 10 Q12.5 10.5 12 18 Q11.5 10.5 4 10 Q11.5 9.5 12 2 Z" />
+        <path d="M3 15 Q12 20 21 15" strokeWidth="1.5" strokeDasharray="3 2" />
+      </svg>
+    )
+  },
+  { 
+    path: '/about', 
+    label: 'About', 
+    icon: (
+      <svg viewBox="0 0 24 24" className={styles.doodleIcon} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M5 3 L14 3 L19 8 L19 21 L5 21 Z" />
+        <path d="M13 3 L13 8 L19 8" />
+        <line x1="8" y1="12" x2="16" y2="12" strokeWidth="2" />
+        <line x1="8" y1="16" x2="14" y2="16" strokeWidth="2" />
+      </svg>
+    )
+  },
+  { 
+    path: '/community', 
+    label: 'Community', 
+    icon: (
+      <svg viewBox="0 0 24 24" className={styles.doodleIcon} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+        {/* Stickman left */}
+        <circle cx="8" cy="7" r="2.8" />
+        <line x1="8" y1="10" x2="8" y2="16" />
+        <line x1="8" y1="12" x2="11" y2="13" />
+        <polyline points="5 21 8 16 11 21" />
+        {/* Stickman right */}
+        <circle cx="16" cy="7" r="2.8" />
+        <line x1="16" y1="10" x2="16" y2="16" />
+        <line x1="16" y1="12" x2="11" y2="13" />
+        <polyline points="13 21 16 16 19 21" />
+      </svg>
+    )
+  },
 ];
 
 // Deterministic rotation per tab for hand-placed feel
@@ -24,7 +84,17 @@ const tabRotations = [1.5, -0.8, 1.2, -1.5, 0.7];
 
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    setSoundEnabled(audioManager.isEnabled());
+  }, []);
+
+  const handleToggleSound = () => {
+    const newState = audioManager.toggle();
+    setSoundEnabled(newState);
+  };
 
   return (
     <>
@@ -48,6 +118,7 @@ export default function Nav() {
                   rotate: 0,
                   transition: { type: 'spring', stiffness: 400, damping: 20 },
                 }}
+                onMouseEnter={() => audioManager.playTap()}
                 whileTap={{ scale: 0.95 }}
               >
                 <span className={styles.tabLabel}>{route.label}</span>
@@ -75,10 +146,42 @@ export default function Nav() {
           </motion.div>
         </NavLink>
 
+        {/* Sound Effects Toggle Button */}
+        <motion.button
+          className={styles.soundToggle}
+          onClick={handleToggleSound}
+          whileHover={{ scale: 1.15, rotate: [0, -6, 6, -3, 0] }}
+          whileTap={{ scale: 0.9 }}
+          data-cursor="link"
+          aria-label="Toggle Sound Effects"
+        >
+          <svg viewBox="0 0 24 24" className={styles.soundIcon} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            {soundEnabled ? (
+              <>
+                <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z" />
+                <path d="M15.5 8.5 A 5 5 0 0 1 15.5 15.5" />
+                <path d="M19 6 A 9 9 0 0 1 19 18" />
+              </>
+            ) : (
+              <>
+                <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z" />
+                <line x1="16" y1="9" x2="22" y2="15" />
+                <line x1="22" y1="9" x2="16" y2="15" />
+              </>
+            )}
+          </svg>
+        </motion.button>
+
         {/* Mobile hamburger — notebook cover flip */}
         <motion.button
           className={styles.hamburger}
-          onClick={() => setMobileOpen(!mobileOpen)}
+          onClick={() => {
+            const nextState = !mobileOpen;
+            setMobileOpen(nextState);
+            if (nextState) {
+              audioManager.playTear();
+            }
+          }}
           whileTap={{ scale: 0.9 }}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -98,23 +201,67 @@ export default function Nav() {
         </motion.button>
       </nav>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile backdrop dim overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            className={styles.mobileBackdrop}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Mobile menu notebook overlay sheet */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             className={styles.mobileOverlay}
-            initial={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
-            animate={{ clipPath: 'circle(150% at calc(100% - 40px) 40px)' }}
-            exit={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ x: '100%', rotate: 8 }}
+            animate={{ x: 0, rotate: 0 }}
+            exit={{ x: '100%', rotate: 8 }}
+            transition={{ type: 'spring', stiffness: 220, damping: 24 }}
           >
+            {/* Binder spiral ring holes on the left margin */}
+            <div className={styles.binderHoles}>
+              {[...Array(9)].map((_, idx) => (
+                <div key={idx} className={styles.binderHole} />
+              ))}
+            </div>
+
+            {/* Vertical torn paper edge decoration on the left */}
+            <div className={styles.verticalTornEdge}>
+              <svg viewBox="0 0 20 100" preserveAspectRatio="none" className={styles.verticalTornSvg}>
+                <path d="M20,0 L10,5 L20,10 L5,15 L20,20 L12,25 L20,30 L8,35 L20,40 L15,45 L20,50 L10,55 L20,60 L5,65 L20,70 L12,75 L20,80 L8,85 L20,90 L15,95 L20,100 Z" />
+              </svg>
+            </div>
+
+            {/* wobbly Close Button inside the notebook sheet */}
+            <button
+              className={styles.closeBtn}
+              onClick={() => {
+                setMobileOpen(false);
+                audioManager.playTear();
+              }}
+              aria-label="Close menu"
+              data-cursor="link"
+            >
+              <svg viewBox="0 0 24 24" className={styles.closeIcon}>
+                <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
+            </button>
+
             <div className={styles.mobileLinks}>
               {routes.map((route, i) => (
                 <motion.div
                   key={route.path}
-                  initial={{ opacity: 0, x: 50 }}
+                  initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, type: 'spring', stiffness: 200 }}
+                  transition={{ delay: 0.1 + i * 0.05, type: 'spring', stiffness: 200 }}
+                  onMouseEnter={() => audioManager.playTap()}
                 >
                   <NavLink
                     to={route.path}

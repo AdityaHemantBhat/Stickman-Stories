@@ -126,29 +126,98 @@
   transform-origin: center;
 }
 
-/* ── Mobile Overlay ── */
-.mobileOverlay {
+/* ── Mobile Overlay Backdrop ── */
+.mobileBackdrop {
   position: fixed;
   inset: 0;
+  background: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: calc(var(--z-nav) + 4);
+  pointer-events: auto;
+}
+
+/* ── Mobile Overlay Sheet Drawer ── */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 82%;
+  max-width: 310px;
+  background-color: var(--paper-warm);
+  /* Notebook paper lines: vertical red line on left margin, blue lines horizontally */
+  background-image: 
+    linear-gradient(var(--paper-warm) 23px, #e3edf5 23px, #e3edf5 24px),
+    linear-gradient(90deg, transparent 49px, #fabcb5 49px, #fabcb5 51px, transparent 51px);
+  background-size: 100% 24px, 100% 100%;
+  box-shadow: -6px 0 25px rgba(10, 10, 10, 0.18);
   z-index: calc(var(--z-nav) + 5);
-  background: var(--paper-cream);
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  padding: 0 var(--space-4) 0 64px; /* offset to avoid left margin spiral */
+  overflow: hidden;
+  pointer-events: auto;
+  transform-origin: right center;
 }
 
 .mobileOverlay::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   pointer-events: none;
+}
+
+/* Binder Spiral Ring Holes */
+.binderHoles {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-8) 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.binderHole {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--chalkboard-deep);
+  box-shadow: inset 1px 1.5px 2px rgba(0, 0, 0, 0.65), 0.5px 0.5px 0px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(10, 10, 10, 0.25);
+}
+
+/* Jagged Torn Page Left Edge decoration */
+.verticalTornEdge {
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 10px;
+  height: 100%;
+  fill: var(--paper-warm);
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(-2px 0 3px rgba(0, 0, 0, 0.1));
+}
+
+.verticalTornSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .mobileLinks {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  z-index: 2;
 }
 
 .mobileLink {
@@ -157,25 +226,36 @@
   gap: var(--space-4);
   text-decoration: none;
   color: var(--ink-mid);
-  transition: color var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, transform var(--duration-fast) ease;
 }
 
 .mobileLink:hover,
 .mobileLinkActive {
   color: var(--ink-black);
+  transform: translateX(4px);
 }
 
 .mobileLinkIcon {
-  font-size: var(--text-2xl);
-  width: 2em;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: inherit;
+}
+
+.doodleIcon {
+  width: 100%;
+  height: 100%;
+  display: block;
+  stroke: currentColor;
 }
 
 .mobileLinkLabel {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   font-weight: 700;
-  letter-spacing: var(--tracking-display);
+  letter-spacing: var(--tracking-wide);
 }
 
 .mobileLinkActive .mobileLinkLabel {
@@ -200,4 +280,57 @@
   .mobileOverlay {
     display: none !important;
   }
+}
+
+/* ── Sound Toggle ── */
+.soundToggle {
+  position: fixed;
+  top: calc(var(--space-5) + 4px);
+  left: calc(var(--space-5) + 52px);
+  z-index: var(--z-nav);
+  pointer-events: auto;
+  background: none;
+  border: none;
+  color: var(--ink-black);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color var(--duration-fast) ease;
+}
+
+.soundToggle:hover {
+  color: var(--accent-red);
+}
+
+.soundIcon {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+.closeBtn {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: none;
+  border: none;
+  color: var(--ink-mid);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+  transition: color var(--duration-fast) ease, transform 0.4s var(--ease-spring);
+}
+
+.closeBtn:hover {
+  color: var(--accent-red);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.closeIcon {
+  width: 22px;
+  height: 22px;
 }

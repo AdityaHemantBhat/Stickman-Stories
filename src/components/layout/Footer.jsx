@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -40,7 +41,7 @@ const SocialIcons = {
 
 const socialLinks = [
   { name: 'YouTube', url: 'https://www.youtube.com/@StickmanStories_YT', Icon: SocialIcons.YouTube },
-  { name: 'Discord', url: '#', Icon: SocialIcons.Discord },
+  { name: 'Discord', url: 'https://discord.gg/4X69Ktv336', Icon: SocialIcons.Discord },
   { name: 'Instagram', url: 'https://www.instagram.com/stickmanstories_youtube/', Icon: SocialIcons.Instagram },
   { name: 'X', url: '#', Icon: SocialIcons.X },
 ];
@@ -167,9 +168,9 @@ export default function Footer() {
         {/* Navigation links */}
         <nav className={styles.links} aria-label="Footer navigation">
           {footerLinks.map((link) => (
-            <a
+            <Link
               key={link.path}
-              href={link.path}
+              to={link.path}
               className={styles.link}
               data-cursor="link"
             >
@@ -178,7 +179,7 @@ export default function Footer() {
               <svg viewBox="0 0 100 10" className={styles.chalkUnderline} preserveAspectRatio="none">
                 <path d="M1,5 Q50,9 99,3 M5,7 Q50,11 95,5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
               </svg>
-            </a>
+            </Link>
           ))}
         </nav>
 

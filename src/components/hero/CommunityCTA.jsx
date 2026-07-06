@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -56,12 +57,12 @@ export default function CommunityCTA() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, delay: 0.4, type: 'spring' }}
         >
-          <a href="/community" className={styles.ctaButton} data-cursor="link">
+          <Link to="/community" className={styles.ctaButton} data-cursor="link">
             <span className={styles.btnText}>Join Discord</span>
             <svg viewBox="0 0 24 24" className={styles.btnIcon}>
               <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </a>
+          </Link>
         </motion.div>
       </div>
 

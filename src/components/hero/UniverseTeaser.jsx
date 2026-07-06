@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -222,12 +223,12 @@ export default function UniverseTeaser() {
 
           {/* Explore Universe CTA */}
           <div className={styles.exploreWrapper}>
-            <a href="/universe" className={styles.exploreLink} data-cursor="link">
+            <Link to="/universe" className={styles.exploreLink} data-cursor="link">
               <span className={styles.exploreText}>Explore the<br/>Universe</span>
               <svg viewBox="0 0 60 20" className={styles.doodleArrow}>
                 <path d="M0 10 Q30 20 55 10 M45 2 L58 10 L48 18" fill="none" stroke="var(--accent-red)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
