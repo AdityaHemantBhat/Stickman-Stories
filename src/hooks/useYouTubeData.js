@@ -35,6 +35,9 @@ export function useYouTubeData({ maxResults = 10 } = {}) {
 
     try {
       let targetPlaylistId;
+      let subscribers = 0;
+      let apiViews = 0;
+      let videos = 0;
 
       // Step 0: Get the channel's "Uploads" playlist and channel statistics using the CHANNEL_ID
       const channelRes = await fetch(
@@ -46,19 +49,24 @@ export function useYouTubeData({ maxResults = 10 } = {}) {
       if (channelData.items && channelData.items.length > 0) {
         targetPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
         const stats = channelData.items[0].statistics;
+        subscribers = parseInt(stats.subscriberCount) || 0;
+        apiViews = parseInt(stats.viewCount) || 0;
+        videos = parseInt(stats.videoCount) || 0;
+        
+        // Initialize channelStats; we will refine the views count later using actual video views
         setChannelStats({
-          subscribers: parseInt(stats.subscriberCount) || 0,
-          views: parseInt(stats.viewCount) || 0,
-          videos: parseInt(stats.videoCount) || 0,
+          subscribers,
+          views: apiViews,
+          videos,
         });
       } else {
         throw new Error('Channel not found');
       }
 
-      // Step 1: Get playlist items (thumbnails, titles, video IDs)
+      // Step 1: Get playlist items (thumbnails, titles, video IDs) - always fetch up to 50 to sum views accurately
       const playlistRes = await fetch(
         `https://www.googleapis.com/youtube/v3/playlistItems?` +
-        `part=snippet&maxResults=${maxResults}&playlistId=${targetPlaylistId}&key=${API_KEY}`
+        `part=snippet&maxResults=50&playlistId=${targetPlaylistId}&key=${API_KEY}`
       );
 
       if (!playlistRes.ok) throw new Error(`Playlist API error: ${playlistRes.status}`);
@@ -77,9 +85,12 @@ export function useYouTubeData({ maxResults = 10 } = {}) {
       if (!statsRes.ok) throw new Error(`Videos API error: ${statsRes.status}`);
       const statsData = await statsRes.json();
 
-      // Step 3: Merge and normalize
+      // Step 3: Merge, normalize, and sum actual video views
       const statsMap = {};
+      let calculatedViewsSum = 0;
       statsData.items.forEach((item) => {
+        const viewCount = parseInt(item.statistics.viewCount) || 0;
+        calculatedViewsSum += viewCount;
         statsMap[item.id] = {
           viewCount: item.statistics.viewCount,
           likeCount: item.statistics.likeCount,
@@ -130,7 +141,16 @@ export function useYouTubeData({ maxResults = 10 } = {}) {
         };
       });
 
-      setEpisodes(normalized);
+      // Slice to match requested maxResults for UI list
+      setEpisodes(normalized.slice(0, maxResults));
+      
+      // Update channelStats with the maximum of the API's channel-level viewCount and the computed sum of individual video views
+      setChannelStats({
+        subscribers,
+        views: Math.max(apiViews, calculatedViewsSum),
+        videos,
+      });
+
       setIsLive(true);
       setLoading(false);
     } catch (err) {
